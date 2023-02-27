@@ -6,6 +6,7 @@
 {attribute 'enable_dynamic_creation'}
 FUNCTION_BLOCK EventHandlerItem EXTENDS Disposable IMPLEMENTS I_EventHandlerItem
 VAR
+	name : T_MAXSTRING;
 	handler : I_EventHandler;
 	_next : I_EventHandlerItem;
 	_previous : I_EventHandlerItem;
@@ -19,10 +20,15 @@ END_VAR
     <Method Name="Emit" Id="{866eecf0-8116-015b-1dbb-47d7acd4d5e9}">
       <Declaration><![CDATA[METHOD PUBLIC Emit
 VAR_INPUT
+	EventName : T_MaxString;
 	Event : I_Event;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF handler = 0 THEN
+        <ST><![CDATA[IF EventName <> name THEN
+	RETURN;
+END_IF
+
+IF handler = 0 THEN
 	RETURN;
 END_IF
 
@@ -32,11 +38,20 @@ handler.HandleEvent(Event);]]></ST>
     <Method Name="EqualTo" Id="{0b7f4115-028c-0538-2e49-fc943848d717}">
       <Declaration><![CDATA[METHOD EqualTo : BOOL
 VAR_INPUT
+	Name : T_MaxString;
 	Handler : I_EventHandler;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[EqualTo := THIS^.handler = Handler;]]></ST>
+        <ST><![CDATA[IF THIS^.handler <> Handler THEN
+	RETURN;
+END_IF
+
+IF THIS^.name <> Name THEN
+	RETURN;
+END_IF
+
+EqualTo := TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_init" Id="{05c029f5-291d-0e89-2a33-46bfdf5d0772}" FolderPath="Constructor\">
@@ -44,11 +59,13 @@ END_VAR
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	Name : T_MAXSTRING;
 	Handler : I_EventHandler;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[THIS^.handler := Handler;]]></ST>
+        <ST><![CDATA[THIS^.name := Name;
+THIS^.handler := Handler;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Next" Id="{7c3a79d8-d51d-0b55-15cc-435911325a3c}">

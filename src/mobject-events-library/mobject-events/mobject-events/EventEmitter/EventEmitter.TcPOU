@@ -6,61 +6,42 @@
 {attribute 'enable_dynamic_creation'}
 FUNCTION_BLOCK EventEmitter EXTENDS Disposable IMPLEMENTS I_EventEmitter, I_EventTarget
 VAR
-	firstGroupItem : I_EventGroupItem;
+	firstEventHandlerItem : I_EventHandlerItem;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Folder Name="Private" Id="{fccea640-88c2-0ee4-05ef-31413047fa93}" />
+    <Folder Name="Private" Id="{a4993e39-6b9a-4f97-92bb-498c8e8b3833}" />
     <Folder Name="Protected" Id="{bbe7233f-1da8-4e93-a660-c0dd426fd7c9}" />
-    <Method Name="AddGroupToCollection" Id="{b3913cec-6c5c-0990-39c1-ad4263cbff49}" FolderPath="Private\">
-      <Declaration><![CDATA[METHOD PRIVATE AddGroupToCollection
-VAR_INPUT
-	GroupItem : I_EventGroupItem;
-END_VAR
-VAR
-	currentEventItem : I_EventGroupItem;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF firstGroupItem = 0 THEN
-	firstGroupItem := GroupItem;
-	RETURN;
-END_IF
-
-currentEventItem := firstGroupItem;
-
-WHILE currentEventItem.next <> 0 DO
-	currentEventItem := currentEventItem.next;
-END_WHILE
-
-currentEventItem.next := GroupItem;
-GroupItem.previous := currentEventItem;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="AddNewGroupItem" Id="{3e1c5c7b-0efc-0b10-227b-10e6e0ed7c3f}" FolderPath="Private\">
-      <Declaration><![CDATA[METHOD PUBLIC AddNewGroupItem : I_EventGroupItem
-VAR_INPUT
-	Name : T_MaxString;
-END_VAR
-VAR
-	pEventItem : POINTER TO EventGroupItem;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[pEventItem := __NEW(EventGroupItem(GroupName := Name));
-AddNewGroupItem := pEventItem^;
-AddGroupToCollection(pEventItem^);]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="Clear" Id="{2416e33a-b526-085d-3020-bb4e7a00eb99}">
       <Declaration><![CDATA[METHOD PUBLIC Clear
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[WHILE firstGroupItem <> 0 DO
-	RemoveGroupItem(firstGroupItem);
+        <ST><![CDATA[DisposeAllEventHandlerItems();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DisposeAllEventHandlerItems" Id="{0cc82780-e1f5-44f7-9d97-1b918a826efe}" FolderPath="Private\">
+      <Declaration><![CDATA[METHOD PRIVATE DisposeAllEventHandlerItems
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[WHILE firstEventHandlerItem <> 0 DO
+	DisposeEventHandlerItem(firstEventHandlerItem);
 END_WHILE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DisposeEventHandlerItem" Id="{13c76c82-1756-4efc-95be-059539bbfaf4}" FolderPath="Private\">
+      <Declaration><![CDATA[METHOD PRIVATE DisposeEventHandlerItem
+VAR_INPUT
+	EventHandlerItem : I_EventHandlerItem;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[RemoveEventHandlerItemFromCollection(EventHandlerItem);
+EventHandlerItem.Dispose();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Emit" Id="{aad762c3-e104-0b65-0953-319091884fb4}">
@@ -70,58 +51,63 @@ VAR_INPUT
 	Event : I_Event;
 END_VAR
 VAR
-	foundGroupItem : I_EventGroupItem;
+	currentEventHandlerItem : I_EventHandlerItem;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[foundGroupItem := FindGroupItemByName(EventName);
+        <ST><![CDATA[currentEventHandlerItem := firstEventHandlerItem;
 
-IF foundGroupItem = 0 THEN
-	RETURN;
-END_IF
-
-foundGroupItem.Emit(Event);]]></ST>
+WHILE currentEventHandlerItem <> 0 DO
+	currentEventHandlerItem.Emit(EventName, Event);
+	currentEventHandlerItem := currentEventHandlerItem.Next;
+END_WHILE]]></ST>
       </Implementation>
     </Method>
-    <Method Name="FindGroupItemByName" Id="{0037805f-21b9-031a-1f57-9cce8b8aa43c}" FolderPath="Private\">
-      <Declaration><![CDATA[METHOD PRIVATE FindGroupItemByName : I_EventGroupItem
+    <Method Name="FindEventHandlerItem" Id="{25dc513f-fa02-4275-bd88-27ca87d53e89}" FolderPath="Private\">
+      <Declaration><![CDATA[METHOD PRIVATE FindEventHandlerItem : I_EventHandlerItem
 VAR_INPUT
-	Name : T_MaxString;
+	EventName : T_MaxString;
+	EventHandler : I_EventHandler;
 END_VAR
 VAR
-	currentGroupItem : I_EventGroupItem;
+	currentEventHandlerItem : I_EventHandlerItem;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[currentGroupItem := firstGroupItem;
+        <ST><![CDATA[currentEventHandlerItem := firstEventHandlerItem;
 
-WHILE currentGroupItem <> 0 DO
+WHILE currentEventHandlerItem <> 0 DO
 	
-	IF currentGroupItem.EqualTo(Name) THEN
-		FindGroupItemByName := currentGroupItem; 
+	IF currentEventHandlerItem.EqualTo(EventName, EventHandler) THEN
+		FindEventHandlerItem := currentEventHandlerItem; 
 		RETURN;
 	END_IF
 	
-	currentGroupItem := currentGroupItem.Next;
+	currentEventHandlerItem := currentEventHandlerItem.Next;
 
 END_WHILE]]></ST>
       </Implementation>
     </Method>
-    <Method Name="GetGroupItemByName" Id="{d6247e5c-a928-04fc-3ee1-18a2a270a57e}" FolderPath="Private\">
-      <Declaration><![CDATA[METHOD PRIVATE GetGroupItemByName : I_EventGroupItem
+    <Method Name="InsertEventHandlerItem" Id="{202b7263-f049-4b6f-bd05-d85abcfaf3f5}" FolderPath="Private\">
+      <Declaration><![CDATA[METHOD PRIVATE InsertEventHandlerItem
 VAR_INPUT
-	Name : T_MaxString;
+	EventHandlerItem : I_EventHandlerItem;
 END_VAR
 VAR
-	groupItem : I_EventGroupItem;
+	currentEventHandlerItem : I_EventHandlerItem;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[groupItem := FindGroupItemByName(Name);
-
-IF groupItem <> 0 THEN
-	GetGroupItemByName := groupItem;
+        <ST><![CDATA[IF firstEventHandlerItem = 0 THEN
+	firstEventHandlerItem := EventHandlerItem;
 	RETURN;
 END_IF
 
-GetGroupItemByName := AddNewGroupItem(Name);]]></ST>
+currentEventHandlerItem := firstEventHandlerItem;
+
+WHILE currentEventHandlerItem.next <> 0 DO
+	currentEventHandlerItem := currentEventHandlerItem.next;
+END_WHILE
+
+currentEventHandlerItem.next := EventHandlerItem;
+EventHandlerItem.previous := currentEventHandlerItem;]]></ST>
       </Implementation>
     </Method>
     <Method Name="OffEvent" Id="{e0cd24fb-c230-0497-1d05-c97ab081c4ae}">
@@ -131,22 +117,30 @@ VAR_INPUT
 	EventHandler : I_EventHandler;
 END_VAR
 VAR
-	eventGroup : I_EventGroupItem;
+	foundHandlerItem : I_EventHandlerItem;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[eventGroup := FindGroupItemByName(EventName);
+        <ST><![CDATA[foundHandlerItem := FindEventHandlerItem(EventName, EventHandler);
 
-IF eventGroup = 0 THEN
+IF foundHandlerItem = 0 THEN
 	RETURN;
 END_IF
 
-eventGroup.RemoveHandler(EventHandler);
-
-IF eventGroup.HasHandlers THEN
-	RETURN;
-END_IF
-
-RemoveGroupItem(eventGroup);]]></ST>
+DisposeEventHandlerItem(foundHandlerItem);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnceEvent" Id="{b340e1d1-c3bd-4bb2-9574-cef9ac1a9d97}">
+      <Declaration><![CDATA[METHOD PUBLIC OnceEvent
+VAR_INPUT
+	EventName : T_MaxString;
+	EventHandler : I_EventHandler;
+END_VAR
+VAR
+	pEventHandlerItem : POINTER TO EventHandlerItemOnceOnly;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[pEventHandlerItem := __NEW(EventHandlerItemOnceOnly(Name := EventName, Handler := EventHandler, Parent := THIS^));
+InsertEventHandlerItem(pEventHandlerItem^);]]></ST>
       </Implementation>
     </Method>
     <Method Name="OnDispose" Id="{95fb04e0-0d97-4caa-aeb9-f58207b3694a}" FolderPath="Protected\">
@@ -156,7 +150,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Clear();]]></ST>
+        <ST><![CDATA[DisposeAllEventHandlerItems();]]></ST>
       </Implementation>
     </Method>
     <Method Name="OnEvent" Id="{0bb7cd99-e240-02f7-2993-7f55b6daf7f6}">
@@ -164,65 +158,58 @@ END_VAR
 VAR_INPUT
 	EventName : T_MaxString;
 	EventHandler : I_EventHandler;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[GetGroupItemByName(EventName).AddHandler(EventHandler);]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="RemoveGroupFromCollection" Id="{2c8263a3-7af9-0841-0612-51a1923ead63}" FolderPath="Private\">
-      <Declaration><![CDATA[METHOD PRIVATE RemoveGroupFromCollection
-VAR_INPUT
-	GroupItem : I_EventGroupItem;
 END_VAR
 VAR
-	previous : I_EventGroupItem;
-	next : I_EventGroupItem;
+	pEventHandlerItem : POINTER TO EventHandlerItem;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GroupItem = 0 THEN
+        <ST><![CDATA[pEventHandlerItem := __NEW(EventHandlerItem(Name :=EventName, Handler := EventHandler));
+InsertEventHandlerItem(pEventHandlerItem^);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RemoveEventHandlerItemFromCollection" Id="{9cdd6aef-3021-4ef4-b031-5c16af019f1a}" FolderPath="Private\">
+      <Declaration><![CDATA[METHOD PRIVATE RemoveEventHandlerItemFromCollection
+VAR_INPUT
+	EventHandlerItem : I_EventHandlerItem;
+END_VAR
+VAR
+	previous : I_EventHandlerItem;
+	next : I_EventHandlerItem;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF EventHandlerItem = 0 THEN
 	// nothing to remove
 	RETURN;
 END_IF
 
-IF GroupItem = firstGroupItem AND GroupItem.Next = 0 THEN 
+IF EventHandlerItem = firstEventHandlerItem AND EventHandlerItem.Next = 0 THEN 
 	
-	// the group item was the only one in the list, as such you just set the first to zero
-	firstGroupItem := 0; 
+	// the item was the only one in the list, as such you just set the first to zero
+	firstEventHandlerItem := 0; 
 	
-ELSIF GroupItem = firstGroupItem THEN 
+ELSIF EventHandlerItem = firstEventHandlerItem THEN 
 	
-	// the group item was the first in the list of many, so make the next group the first and remove 
-	// it's "previous" as the first in the group does not have a previous
-	firstGroupItem := GroupItem.next; 
-	firstGroupItem.Previous := 0;
+	// the item was the first in the list of many, so make the next item the first and remove 
+	// it's "previous" as the first in the item does not have a previous
+	firstEventHandlerItem := EventHandlerItem.next; 
+	firstEventHandlerItem.Previous := 0;
 
-ELSIF GroupItem.Next <> 0 THEN
+ELSIF EventHandlerItem.Next <> 0 THEN
 	
-	// the group item is mid list so link it's previous and next together 
-	previous := GroupItem.Previous;
-	next := GroupItem.Next;
+	// the item is mid list so link it's previous and next together 
+	previous := EventHandlerItem.Previous;
+	next := EventHandlerItem.Next;
 	
 	previous.Next := next;
 	next.Previous := previous;
 	
 ELSE 
 	
-	// the group is at the end so only remove itself from the previous
-	previous := GroupItem.Previous;
+	// the item is at the end so only remove itself from the previous
+	previous := EventHandlerItem.Previous;
 	previous.Next := 0;
 
 END_IF]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="RemoveGroupItem" Id="{46a69f49-f840-049f-2327-a9b68f159658}" FolderPath="Private\">
-      <Declaration><![CDATA[METHOD PUBLIC RemoveGroupItem
-VAR_INPUT
-	GroupItem : I_EventGroupItem;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[RemoveGroupFromCollection(GroupItem);
-GroupItem.Dispose();]]></ST>
       </Implementation>
     </Method>
   </POU>

@@ -5,8 +5,9 @@
 - mobject-events
 
   - [EventEmitter](event-emitter.md)
-  - [I_Event](tba.md)
-  - [I_EventHandler](tba.md)
+  - [I_Event](i-event.md)
+  - [I_EventHandler](i-event-handler.md)
+  - [I_EventEmitter](i-event-emitter.md)
   - [I_EventTarget](i-event-target.md)
 
 - Guides

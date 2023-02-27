@@ -10,6 +10,13 @@ VAR_INPUT
 	EventHandler : I_EventHandler;
 END_VAR]]></Declaration>
     </Method>
+    <Method Name="OnceEvent" Id="{6ddfc555-780a-49bd-a30f-34a0808f6006}">
+      <Declaration><![CDATA[METHOD PUBLIC OnceEvent
+VAR_INPUT
+	EventName : T_MaxString;
+	EventHandler : I_EventHandler;
+END_VAR]]></Declaration>
+    </Method>
     <Method Name="OnEvent" Id="{b949e301-16ff-080e-090e-4a7708470395}">
       <Declaration><![CDATA[METHOD PUBLIC OnEvent
 VAR_INPUT

@@ -2,12 +2,12 @@
 
 ## Definition
 
-|             |                             |
-| ----------- | --------------------------- |
-| Namespace   | mobject-events              |
-| Library     | mobject-events              |
-| Inheritance | None                        |
-| Implements  | I_Disposable, I_EventTarget |
+|             |                                                                                                                                                          |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Namespace   | mobject-events                                                                                                                                           |
+| Library     | mobject-events                                                                                                                                           |
+| Inheritance | [Disposable](https://benhar-dev.github.io/mobject-disposable/#/disposable)                                                                               |
+| Implements  | [I_Disposable](https://benhar-dev.github.io/mobject-disposable/#/i-disposable), [I_EventEmitter](i-event-emitter.md), [I_EventTarget](i-event-target.md) |
 
 ## Remarks
 
@@ -46,35 +46,16 @@ Removes all event handlers from the EventEmitter.
 
 #### Parameters
 
-None
+N/A
 
 #### Return
 
-Void
+N/A
 
 #### Usage
 
 ```example
 eventEmitter.Clear();
-```
-
-### Dispose()
-
-Destroys the EventEmitter and releases memory. Only needed if the EventEmitter was created using the \_\_NEW() keyword.
-
-#### Parameters
-
-None
-
-#### Return
-
-Void
-
-#### Usage
-
-```example
-pEventEmitter := __NEW(EventEmitter);
-pEventEmitter^.Dispose();
 ```
 
 ### Emit(EventName, Event)
@@ -83,14 +64,14 @@ Emits an event with the given name and data.
 
 #### Parameters
 
-| Parameters | Datatype    | Description                         |
-| ---------- | ----------- | ----------------------------------- |
-| EventName  | T_MAXSTRING | The name of the event.              |
-| Event      | I_Event     | The data associated with the event. |
+| Parameters | Datatype              | Description                         |
+| ---------- | --------------------- | ----------------------------------- |
+| EventName  | T_MAXSTRING           | The name of the event.              |
+| Event      | [I_Event](i-event.md) | The data associated with the event. |
 
 #### Return
 
-Void
+N/A
 
 #### Usage
 
@@ -104,19 +85,40 @@ Registers an event handler for the given event name.
 
 #### Parameters
 
-| Parameters   | Datatype       | Description                    |
-| ------------ | -------------- | ------------------------------ |
-| EventName    | T_MAXSTRING    | The name of the event.         |
-| EventHandler | I_EventHandler | The event handler to register. |
+| Parameters   | Datatype                             | Description                    |
+| ------------ | ------------------------------------ | ------------------------------ |
+| EventName    | T_MAXSTRING                          | The name of the event.         |
+| EventHandler | [I_EventHandler](i-event-handler.md) | The event handler to register. |
 
 #### Return
 
-Void
+N/A
 
 #### Usage
 
 ```example
 eventEmitter.OnEvent('onTriggered', eventHandler);
+```
+
+### OnceEvent(EventName, EventHandler)
+
+Registers an event handler for the given event name which is triggered only once.
+
+#### Parameters
+
+| Parameters   | Datatype                             | Description                    |
+| ------------ | ------------------------------------ | ------------------------------ |
+| EventName    | T_MAXSTRING                          | The name of the event.         |
+| EventHandler | [I_EventHandler](i-event-handler.md) | The event handler to register. |
+
+#### Return
+
+N/A
+
+#### Usage
+
+```example
+eventEmitter.OnceEvent('onValueChange', eventHandler);
 ```
 
 ### OffEvent(EventName, EventHandler)
@@ -125,14 +127,14 @@ Unregisters an event handler for the given event name.
 
 #### Parameters
 
-| Parameters   | Datatype       | Description                      |
-| ------------ | -------------- | -------------------------------- |
-| EventName    | T_MAXSTRING    | The name of the event.           |
-| EventHandler | I_EventHandler | The event handler to unregister. |
+| Parameters   | Datatype                             | Description                      |
+| ------------ | ------------------------------------ | -------------------------------- |
+| EventName    | T_MAXSTRING                          | The name of the event.           |
+| EventHandler | [I_EventHandler](i-event-handler.md) | The event handler to unregister. |
 
 #### Return
 
-Void
+N/A
 
 #### Usage
 
@@ -146,7 +148,7 @@ The example below will show you how you can add an EventEmitter to your own obje
 
 1. Start by creating MyObject Function Block.
 
-2. Our class should implement the I_EventTarget interface as good practice. This allows other objects to know it supports events in this way.
+2. Our class should implement the [I_EventTarget](i-event-target.md) interface as good practice. This allows other objects to know it supports events in this way.
 
 ```declaration
 FUNCTION_BLOCK MyObject IMPLEMENTS I_EventTarget

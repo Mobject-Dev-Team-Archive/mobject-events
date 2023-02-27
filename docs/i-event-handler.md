@@ -1,4 +1,4 @@
-# I_EventTarget Interface
+# I_EventHandler Interface
 
 ## Definition
 
@@ -11,17 +11,16 @@
 
 ## Remarks
 
-The I_EventTarget interface should be implemented by any class which can emit an event.
+The I_EventHandler interface should be implemented by any class which can handle events of type [I_Event](i-event.md).
 
 ## Methods
 
-### Emit(EventName, Event)
+### HandleEvent(Event)
 
 #### Parameters
 
 | Parameters | Datatype              |
 | ---------- | --------------------- |
-| EventName  | T_MAXSTRING           |
 | Event      | [I_Event](i-event.md) |
 
 #### Return
