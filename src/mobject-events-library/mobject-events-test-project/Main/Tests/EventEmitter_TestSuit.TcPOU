@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="EventEmitter_TestSuit" Id="{c771dd79-b70b-0181-1b27-c5e2c81ee9a4}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC EventEmitter_TestSuit EXTENDS TcUnit.FB_TestSuite
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CheckEventIsCorrectlyPassedToTheHandler();
+CheckEventIsCorrectlyPassedToMultipleHandlers();
+CheckEventIsNotSentToTheWrongHandler();
+CheckEventHandlerOffUnregistersAHandler();
+CheckEventClearUnregistersMultipleHandlers();]]></ST>
+    </Implementation>
+    <Method Name="CheckEventClearUnregistersMultipleHandlers" Id="{6f968a81-0a57-03c6-3348-3b3f43b11e67}">
+      <Declaration><![CDATA[METHOD PUBLIC CheckEventClearUnregistersMultipleHandlers
+VAR
+	mockEvent : MockEvent;
+	mockHandler1 : MockEventHandler;
+	mockHandler2 : MockEventHandler;
+	eventEmitter : EventEmitter;
+	eventReceived : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('CheckEventClearUnregistersMultipleHandlers');
+
+// @TEST-FIXTURE
+eventEmitter.OnEvent('test', mockHandler1);
+eventEmitter.OnEvent('test', mockHandler2);
+eventEmitter.Clear();
+
+// @TEST-RUN
+eventEmitter.Emit('test',mockEvent);
+eventReceived := mockHandler1.EqualsLastEvent(mockEvent) OR mockHandler2.EqualsLastEvent(mockEvent) ;
+
+// @TEST-ASSSERT
+AssertFalse(
+	Condition := eventReceived,
+	Message := 'Event Emitter did not correctly unregister multiple handlers following a clear'
+);
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="CheckEventHandlerOffUnregistersAHandler" Id="{0291f32e-8068-0b28-38a8-cb83a2bc5dca}">
+      <Declaration><![CDATA[METHOD PUBLIC CheckEventHandlerOffUnregistersAHandler
+VAR
+	mockEvent : MockEvent;
+	mockHandler : MockEventHandler;
+	eventEmitter : EventEmitter;
+	eventReceived : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('CheckEventHandlerOffUnregistersAHandler');
+
+// @TEST-FIXTURE
+eventEmitter.OnEvent('test', mockHandler);
+eventEmitter.OffEvent('test', mockHandler);
+
+// @TEST-RUN
+eventEmitter.Emit('test',mockEvent);
+eventReceived := mockHandler.EqualsLastEvent(mockEvent);
+
+// @TEST-ASSSERT
+AssertFalse(
+	Condition := eventReceived,
+	Message := 'Event Emitter did not correctly unregister the event handler using the off method'
+);
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="CheckEventIsCorrectlyPassedToMultipleHandlers" Id="{ca286491-29ce-0ee7-232d-791d78869866}">
+      <Declaration><![CDATA[METHOD PUBLIC CheckEventIsCorrectlyPassedToMultipleHandlers
+VAR
+	mockEvent : MockEvent;
+	mockHandler1 : MockEventHandler;
+	mockHandler2 : MockEventHandler;
+	eventEmitter : EventEmitter;
+	eventReceived : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('CheckEventIsCorrectlyPassedToMultipleHandlers');
+
+// @TEST-FIXTURE
+eventEmitter.OnEvent('test', mockHandler1);
+eventEmitter.OnEvent('test', mockHandler2);
+
+// @TEST-RUN
+eventEmitter.Emit('test',mockEvent);
+eventReceived := mockHandler1.EqualsLastEvent(mockEvent) AND mockHandler2.EqualsLastEvent(mockEvent) ;
+
+// @TEST-ASSSERT
+AssertTrue(
+	Condition := eventReceived,
+	Message := 'Event Emitter did not correctly emmit the event to multiple handlers'
+);
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="CheckEventIsCorrectlyPassedToTheHandler" Id="{2e5817dc-28f3-0522-2aca-21ad8e95462f}">
+      <Declaration><![CDATA[METHOD PUBLIC CheckEventIsCorrectlyPassedToTheHandler
+VAR
+	mockEvent : MockEvent;
+	mockHandler : MockEventHandler;
+	eventEmitter : EventEmitter;
+	eventReceived : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('CheckEventIsCorrectlyPassedToTheHandler');
+
+// @TEST-FIXTURE
+eventEmitter.OnEvent('test', mockHandler);
+
+// @TEST-RUN
+eventEmitter.Emit('test',mockEvent);
+eventReceived := mockHandler.EqualsLastEvent(mockEvent);
+
+// @TEST-ASSSERT
+AssertTrue(
+	Condition := eventReceived,
+	Message := 'Event Emitter did not correctly emmit the event to the handler'
+);
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="CheckEventIsNotSentToTheWrongHandler" Id="{c9d6842b-c5e0-0fa4-11db-eb3e4bccea3b}">
+      <Declaration><![CDATA[METHOD PUBLIC CheckEventIsNotSentToTheWrongHandler
+VAR
+	mockEvent : MockEvent;
+	mockHandler : MockEventHandler;
+	eventEmitter : EventEmitter;
+	eventReceived : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('CheckEventIsNotSentToTheWrongHandler');
+
+// @TEST-FIXTURE
+eventEmitter.OnEvent('foo', mockHandler);
+
+// @TEST-RUN
+eventEmitter.Emit('bar',mockEvent);
+eventReceived := mockHandler.EqualsLastEvent(mockEvent);
+
+// @TEST-ASSSERT
+AssertFalse(
+	Condition := eventReceived,
+	Message := 'Event Emitter sent the event to the wrong handler'
+);
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>
