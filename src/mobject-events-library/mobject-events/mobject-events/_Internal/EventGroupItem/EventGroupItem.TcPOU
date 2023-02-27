@@ -4,7 +4,7 @@
     <Declaration><![CDATA[{attribute 'linkalways'} 
 {attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
 {attribute 'enable_dynamic_creation'}
-FUNCTION_BLOCK EventGroupItem IMPLEMENTS I_EventGroupItem
+FUNCTION_BLOCK EventGroupItem EXTENDS Disposable IMPLEMENTS I_EventGroupItem
 VAR
 	name : T_MAXSTRING;
 	firstEventHandlerItem : I_EventHandlerItem;
@@ -16,8 +16,8 @@ END_VAR
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Folder Name="Constructor" Id="{6b4faf6d-908a-0f96-192d-76e2be6cc1f1}" />
-    <Folder Name="Destructor" Id="{9bcb25f6-da21-415a-bb18-7a158bb69b9c}" />
     <Folder Name="Private" Id="{c1622086-a143-03da-206d-9fe068b400ff}" />
+    <Folder Name="Protected" Id="{bd343c31-90dd-4403-8dd5-e3eb56fb246f}" />
     <Method Name="AddHandler" Id="{997b0bc9-2d2d-03f8-228b-b62bbd3eb317}">
       <Declaration><![CDATA[METHOD PUBLIC AddHandler
 VAR_INPUT
@@ -39,16 +39,6 @@ END_VAR]]></Declaration>
         <ST><![CDATA[pEventHandlerItem := __NEW(EventHandlerItem(Handler := EventHandler));
 InsertEventHandlerItem(pEventHandlerItem^);
 AddNewEventHandlerItem := pEventHandlerItem^;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="Dispose" Id="{e1f91077-1cef-0efa-3de7-cf122b8fdfa7}">
-      <Declaration><![CDATA[METHOD PUBLIC Dispose
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[RemoveAllEventHandlerItems();
-__Delete(this);]]></ST>
       </Implementation>
     </Method>
     <Method Name="Emit" Id="{e60b34f8-9fa7-0f6b-2b74-93fdf67e7f67}">
@@ -76,16 +66,6 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[EqualTo := THIS^.name = Name;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="FB_exit" Id="{e096376b-0675-480f-b099-1d465ba5333c}" FolderPath="Destructor\">
-      <Declaration><![CDATA[METHOD FB_exit : BOOL
-VAR_INPUT
-	bInCopyCode : BOOL; // if TRUE, the exit method is called for exiting an instance that is copied afterwards (online change).
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[RemoveAllEventHandlerItems();]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_init" Id="{f87ac4b2-1713-052a-21e8-dd9974477c00}" FolderPath="Constructor\">
@@ -177,6 +157,16 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <Method Name="OnDispose" Id="{12515b58-aff7-4c18-b080-92c582058756}" FolderPath="Protected\">
+      <Declaration><![CDATA[METHOD PROTECTED OnDispose : BOOL
+VAR_INPUT
+	CalledExplicitly : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[RemoveAllEventHandlerItems();]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="Previous" Id="{05aac4f6-018a-0924-2c76-20ad77628642}">
       <Declaration><![CDATA[PROPERTY PUBLIC Previous : I_EventGroupItem]]></Declaration>
       <Get Name="Get" Id="{f35de5bb-2f2a-0177-28ee-f5f82b6c3802}">

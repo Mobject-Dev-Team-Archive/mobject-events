@@ -1,14 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <Itf Name="I_EventHandlerItem" Id="{037216c6-6832-0ae9-1b5c-d8b16d4eeb74}">
-    <Declaration><![CDATA[INTERFACE I_EventHandlerItem
+    <Declaration><![CDATA[INTERFACE I_EventHandlerItem EXTENDS I_Disposable
 ]]></Declaration>
-    <Method Name="Dispose" Id="{2e2e2368-d300-0481-0b4a-5718d3296ac6}">
-      <Declaration><![CDATA[METHOD PUBLIC Dispose
-VAR_INPUT
-END_VAR
-]]></Declaration>
-    </Method>
     <Method Name="Emit" Id="{4330b441-0e47-0191-0c5e-1f386aed800a}">
       <Declaration><![CDATA[METHOD PUBLIC Emit
 VAR_INPUT

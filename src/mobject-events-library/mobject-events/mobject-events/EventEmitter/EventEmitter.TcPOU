@@ -4,7 +4,7 @@
     <Declaration><![CDATA[{attribute 'linkalways'} 
 {attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
 {attribute 'enable_dynamic_creation'}
-FUNCTION_BLOCK EventEmitter IMPLEMENTS I_EventEmitter
+FUNCTION_BLOCK EventEmitter EXTENDS Disposable IMPLEMENTS I_EventEmitter, I_EventTarget
 VAR
 	firstGroupItem : I_EventGroupItem;
 END_VAR
@@ -12,8 +12,8 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Folder Name="Destructor" Id="{ec652e17-87a0-47ca-8978-fb14884c1e6a}" />
     <Folder Name="Private" Id="{fccea640-88c2-0ee4-05ef-31413047fa93}" />
+    <Folder Name="Protected" Id="{bbe7233f-1da8-4e93-a660-c0dd426fd7c9}" />
     <Method Name="AddGroupToCollection" Id="{b3913cec-6c5c-0990-39c1-ad4263cbff49}" FolderPath="Private\">
       <Declaration><![CDATA[METHOD PRIVATE AddGroupToCollection
 VAR_INPUT
@@ -63,16 +63,6 @@ END_VAR
 END_WHILE]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Dispose" Id="{9f83325a-9015-049f-0252-5add99c40ffd}">
-      <Declaration><![CDATA[METHOD PUBLIC Dispose
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[Clear();
-__DELETE(THIS);]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="Emit" Id="{aad762c3-e104-0b65-0953-319091884fb4}">
       <Declaration><![CDATA[METHOD PUBLIC Emit
 VAR_INPUT
@@ -90,16 +80,6 @@ IF foundGroupItem = 0 THEN
 END_IF
 
 foundGroupItem.Emit(Event);]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="FB_exit" Id="{a14e6239-cb91-491c-86ac-f0fa9afd2134}" FolderPath="Destructor\">
-      <Declaration><![CDATA[METHOD FB_exit : BOOL
-VAR_INPUT
-	bInCopyCode : BOOL; // if TRUE, the exit method is called for exiting an instance that is copied afterwards (online change).
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[Clear();]]></ST>
       </Implementation>
     </Method>
     <Method Name="FindGroupItemByName" Id="{0037805f-21b9-031a-1f57-9cce8b8aa43c}" FolderPath="Private\">
@@ -167,6 +147,16 @@ IF eventGroup.HasHandlers THEN
 END_IF
 
 RemoveGroupItem(eventGroup);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnDispose" Id="{95fb04e0-0d97-4caa-aeb9-f58207b3694a}" FolderPath="Protected\">
+      <Declaration><![CDATA[METHOD PROTECTED OnDispose : BOOL
+VAR_INPUT
+	CalledExplicitly : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Clear();]]></ST>
       </Implementation>
     </Method>
     <Method Name="OnEvent" Id="{0bb7cd99-e240-02f7-2993-7f55b6daf7f6}">
