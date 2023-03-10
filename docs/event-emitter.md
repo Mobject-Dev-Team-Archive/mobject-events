@@ -97,7 +97,7 @@ N/A
 #### Usage
 
 ```example
-eventEmitter.OnEvent('onTriggered', eventHandler);
+eventEmitter.OnEvent('OnValueChange', eventHandler);
 ```
 
 ### OnceEvent(EventName, EventHandler)
@@ -118,7 +118,7 @@ N/A
 #### Usage
 
 ```example
-eventEmitter.OnceEvent('onValueChange', eventHandler);
+eventEmitter.OnceEvent('OnValueChange', eventHandler);
 ```
 
 ### OffEvent(EventName, EventHandler)
@@ -139,7 +139,7 @@ N/A
 #### Usage
 
 ```example
-eventEmitter.OffEvent('onTriggered', eventHandler);
+eventEmitter.OffEvent('OnValueChange', eventHandler);
 ```
 
 ## Implementation Example
