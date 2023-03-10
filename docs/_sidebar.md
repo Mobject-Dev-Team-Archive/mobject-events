@@ -4,11 +4,16 @@
 
 - mobject-events
 
-  - [EventEmitter](event-emitter.md)
-  - [I_Event](i-event.md)
-  - [I_EventHandler](i-event-handler.md)
-  - [I_EventEmitter](i-event-emitter.md)
-  - [I_EventTarget](i-event-target.md)
+  - Classes
+
+    - [EventEmitter](event-emitter.md)
+
+  - Interfaces
+
+    - [I_Event](i-event.md)
+    - [I_EventEmitter](i-event-emitter.md)
+    - [I_EventHandler](i-event-handler.md)
+    - [I_EventTarget](i-event-target.md)
 
 - Guides
 
