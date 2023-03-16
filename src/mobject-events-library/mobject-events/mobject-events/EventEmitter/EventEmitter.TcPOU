@@ -12,8 +12,8 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Folder Name="Destructor" Id="{04ffa51c-112f-420e-8c0b-d25948a287aa}" />
     <Folder Name="Private" Id="{a4993e39-6b9a-4f97-92bb-498c8e8b3833}" />
-    <Folder Name="Protected" Id="{bbe7233f-1da8-4e93-a660-c0dd426fd7c9}" />
     <Method Name="Clear" Id="{2416e33a-b526-085d-3020-bb4e7a00eb99}">
       <Declaration><![CDATA[METHOD PUBLIC Clear
 VAR_INPUT
@@ -60,6 +60,20 @@ WHILE currentEventHandlerItem <> 0 DO
 	currentEventHandlerItem.Emit(EventName, Event);
 	currentEventHandlerItem := currentEventHandlerItem.Next;
 END_WHILE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_exit" Id="{ddac9f14-3e19-411b-9efc-b7db5d108772}" FolderPath="Destructor\">
+      <Declaration><![CDATA[METHOD FB_exit : BOOL
+VAR_INPUT
+	bInCopyCode : BOOL; // if TRUE, the exit method is called for exiting an instance that is copied afterwards (online change).
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF bInCopyCode THEN
+	RETURN;
+END_IF
+
+DisposeAllEventHandlerItems();]]></ST>
       </Implementation>
     </Method>
     <Method Name="FindEventHandlerItem" Id="{25dc513f-fa02-4275-bd88-27ca87d53e89}" FolderPath="Private\">
@@ -141,16 +155,6 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[pEventHandlerItem := __NEW(EventHandlerItemOnceOnly(Name := EventName, Handler := EventHandler, Parent := THIS^));
 InsertEventHandlerItem(pEventHandlerItem^);]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="OnDispose" Id="{95fb04e0-0d97-4caa-aeb9-f58207b3694a}" FolderPath="Protected\">
-      <Declaration><![CDATA[METHOD PROTECTED OnDispose : BOOL
-VAR_INPUT
-	CalledExplicitly : BOOL;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[DisposeAllEventHandlerItems();]]></ST>
       </Implementation>
     </Method>
     <Method Name="OnEvent" Id="{0bb7cd99-e240-02f7-2993-7f55b6daf7f6}">

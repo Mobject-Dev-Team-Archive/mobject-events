@@ -16,7 +16,6 @@ END_VAR
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Folder Name="Constructor" Id="{7dd57d77-72d8-08b5-38c9-1fbebb7d8bed}" />
-    <Folder Name="Protected" Id="{d04a09b8-32c0-4d76-99ad-06262aec8ec2}" />
     <Method Name="Emit" Id="{866eecf0-8116-015b-1dbb-47d7acd4d5e9}">
       <Declaration><![CDATA[METHOD PUBLIC Emit
 VAR_INPUT
@@ -87,16 +86,6 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <Method Name="OnDispose" Id="{bcd6bdb2-5daf-4b22-9f57-b784336d862d}" FolderPath="Protected\">
-      <Declaration><![CDATA[METHOD PROTECTED OnDispose : BOOL
-VAR_INPUT
-	CalledExplicitly : BOOL;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// no other action needed]]></ST>
-      </Implementation>
-    </Method>
     <Property Name="Previous" Id="{084ead29-15f0-0aa5-3c19-3f650ca0185f}">
       <Declaration><![CDATA[PROPERTY PUBLIC Previous : I_EventHandlerItem]]></Declaration>
       <Get Name="Get" Id="{cd2fabec-7383-0bb3-1699-4aab956b206c}">
