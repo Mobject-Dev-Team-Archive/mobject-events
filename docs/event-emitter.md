@@ -6,8 +6,8 @@
 | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Namespace   | mobject-events                                                                                                                                           |
 | Library     | mobject-events                                                                                                                                           |
-| Inheritance | [Disposable](https://benhar-dev.github.io/mobject-disposable/#/disposable)                                                                               |
-| Implements  | [I_Disposable](https://benhar-dev.github.io/mobject-disposable/#/i-disposable), [I_EventEmitter](i-event-emitter.md), [I_EventTarget](i-event-target.md) |
+| Inheritance | [Disposable](https://mobject-dev-team.github.io/mobject-disposable/#/disposable)                                                                               |
+| Implements  | [I_Disposable](https://mobject-dev-team.github.io/mobject-disposable/#/i-disposable), [I_EventEmitter](i-event-emitter.md), [I_EventTarget](i-event-target.md) |
 
 ## Remarks
 
