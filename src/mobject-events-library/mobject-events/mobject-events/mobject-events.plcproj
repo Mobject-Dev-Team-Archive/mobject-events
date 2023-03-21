@@ -18,7 +18,7 @@
     <Company>mobject</Company>
     <Released>false</Released>
     <Title>mobject-events</Title>
-    <ProjectVersion>0.4.0</ProjectVersion>
+    <ProjectVersion>0.4.1</ProjectVersion>
     <DefaultNamespace>mobject-events</DefaultNamespace>
     <Author>mobject dev team</Author>
     <CombineIds>true</CombineIds>
@@ -82,7 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <PlaceholderResolution Include="mobject-disposable">
-      <Resolution>mobject-disposable, 0.3.0 (mobject)</Resolution>
+      <Resolution>mobject-disposable, 0.3.1 (mobject)</Resolution>
     </PlaceholderResolution>
   </ItemGroup>
   <ProjectExtensions>

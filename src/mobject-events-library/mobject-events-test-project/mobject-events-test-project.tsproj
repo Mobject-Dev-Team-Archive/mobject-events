@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.35">
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4025.12">
 	<Project ProjectGUID="{EE80D651-C063-4DDB-A2E6-0E65F76477EB}" Target64Bit="true" ShowHideConfigurations="#x3c7">
 		<System>
 			<Tasks>
@@ -10,7 +10,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{99410A04-EDBC-4BE9-8215-58B13429C019}" Name="Main" PrjFilePath="Main\Main.plcproj" TmcFilePath="Main\Main.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Main\Main.tmc" TmcHash="{49AA5B7A-0FD2-CE95-6574-1524AEFDFC26}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Main\Main.tmc" TmcHash="{81028C81-40E9-82AE-4419-0F2A8E9A8565}">
 					<Name>Main Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>
@@ -24,9 +24,7 @@
 							<CycleTime>10000000</CycleTime>
 						</Context>
 					</Contexts>
-					<TaskPouOids>
-						<TaskPouOid Prio="20" OTCID="#x08502001"/>
-					</TaskPouOids>
+					<TaskPouOids/>
 				</Instance>
 			</Project>
 		</Plc>
