@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
-  <POU Name="EventEmitter_TestSuit" Id="{c771dd79-b70b-0181-1b27-c5e2c81ee9a4}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC EventEmitter_TestSuit EXTENDS TcUnit.FB_TestSuite
+  <POU Name="EventEmitter_TestSuite" Id="{c771dd79-b70b-0181-1b27-c5e2c81ee9a4}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC EventEmitter_TestSuite EXTENDS TcUnit.FB_TestSuite
 VAR
 END_VAR
 ]]></Declaration>
@@ -11,8 +11,8 @@ CheckEmitWorksWithMultipleHandlers();
 CheckEventIsNotSentToTheWrongHandler();
 CheckOffEventUnregistersAHandler();
 CheckClearUnregistersMultipleHandlers();
-CheckOnceEventCorrectlyCallesHandler();
-CheckOnceEventCorrectlyCallesHandlerOnlyOnce();]]></ST>
+CheckOnceEventCorrectlyCallsHandler();
+CheckOnceEventCorrectlyCallsHandlerOnlyOnce();]]></ST>
     </Implementation>
     <Method Name="CheckClearUnregistersMultipleHandlers" Id="{6f968a81-0a57-03c6-3348-3b3f43b11e67}">
       <Declaration><![CDATA[METHOD PUBLIC CheckClearUnregistersMultipleHandlers
@@ -160,8 +160,8 @@ AssertFalse(
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="CheckOnceEventCorrectlyCallesHandler" Id="{b82d80da-8d21-4c3f-b461-1bcdf25058fc}">
-      <Declaration><![CDATA[METHOD PUBLIC CheckOnceEventCorrectlyCallesHandler
+    <Method Name="CheckOnceEventCorrectlyCallsHandler" Id="{b82d80da-8d21-4c3f-b461-1bcdf25058fc}">
+      <Declaration><![CDATA[METHOD PUBLIC CheckOnceEventCorrectlyCallsHandler
 VAR
 	mockEvent : MockEvent;
 	mockHandler : MockEventHandler;
@@ -170,7 +170,7 @@ VAR
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TEST('CheckOnceEventCorrectlyCallesHandler');
+        <ST><![CDATA[TEST('CheckOnceEventCorrectlyCallsHandler');
 
 // @TEST-FIXTURE
 eventEmitter.OnceEvent('test', mockHandler);
@@ -188,8 +188,8 @@ AssertTrue(
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="CheckOnceEventCorrectlyCallesHandlerOnlyOnce" Id="{41e2f222-2d9a-4d62-b09f-7d10f71b8a0c}">
-      <Declaration><![CDATA[METHOD PUBLIC CheckOnceEventCorrectlyCallesHandlerOnlyOnce
+    <Method Name="CheckOnceEventCorrectlyCallsHandlerOnlyOnce" Id="{41e2f222-2d9a-4d62-b09f-7d10f71b8a0c}">
+      <Declaration><![CDATA[METHOD PUBLIC CheckOnceEventCorrectlyCallsHandlerOnlyOnce
 VAR
 	mockEvent : MockEvent;
 	mockHandler : MockEventHandler;
@@ -199,7 +199,7 @@ VAR
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TEST('CheckOnceEventCorrectlyCallesHandlerOnlyOnce');
+        <ST><![CDATA[TEST('CheckOnceEventCorrectlyCallsHandlerOnlyOnce');
 
 // @TEST-FIXTURE
 eventEmitter.OnceEvent('test', mockHandler);
