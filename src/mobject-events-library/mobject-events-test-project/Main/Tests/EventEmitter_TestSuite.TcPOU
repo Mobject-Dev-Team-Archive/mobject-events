@@ -27,16 +27,13 @@ END_VAR
       <Implementation>
         <ST><![CDATA[TEST('CheckClearUnregistersMultipleHandlers');
 
-// @TEST-FIXTURE
 eventEmitter.OnEvent('test', mockHandler1);
 eventEmitter.OnEvent('test', mockHandler2);
 eventEmitter.Clear();
 
-// @TEST-RUN
 eventEmitter.Emit('test',mockEvent);
 eventReceived := mockHandler1.EqualsLastEvent(mockEvent) OR mockHandler2.EqualsLastEvent(mockEvent) ;
 
-// @TEST-ASSSERT
 AssertFalse(
 	Condition := eventReceived,
 	Message := 'Event Emitter did not correctly unregister multiple handlers following a clear'
@@ -57,14 +54,11 @@ END_VAR
       <Implementation>
         <ST><![CDATA[TEST('CheckEmitWorksWithHandler');
 
-// @TEST-FIXTURE
 eventEmitter.OnEvent('test', mockHandler);
 
-// @TEST-RUN
 eventEmitter.Emit('test',mockEvent);
 eventReceived := mockHandler.EqualsLastEvent(mockEvent);
 
-// @TEST-ASSSERT
 AssertTrue(
 	Condition := eventReceived,
 	Message := 'Event Emitter did not correctly emmit the event to the handler'
@@ -86,15 +80,12 @@ END_VAR
       <Implementation>
         <ST><![CDATA[TEST('CheckEmitWorksWithMultipleHandlers');
 
-// @TEST-FIXTURE
 eventEmitter.OnEvent('test', mockHandler1);
 eventEmitter.OnEvent('test', mockHandler2);
 
-// @TEST-RUN
 eventEmitter.Emit('test',mockEvent);
 eventReceived := mockHandler1.EqualsLastEvent(mockEvent) AND mockHandler2.EqualsLastEvent(mockEvent) ;
 
-// @TEST-ASSSERT
 AssertTrue(
 	Condition := eventReceived,
 	Message := 'Event Emitter did not correctly emmit the event to multiple handlers'
@@ -115,14 +106,11 @@ END_VAR
       <Implementation>
         <ST><![CDATA[TEST('CheckEventIsNotSentToTheWrongHandler');
 
-// @TEST-FIXTURE
 eventEmitter.OnEvent('foo', mockHandler);
 
-// @TEST-RUN
 eventEmitter.Emit('bar',mockEvent);
 eventReceived := mockHandler.EqualsLastEvent(mockEvent);
 
-// @TEST-ASSSERT
 AssertFalse(
 	Condition := eventReceived,
 	Message := 'Event Emitter sent the event to the wrong handler'
@@ -143,15 +131,12 @@ END_VAR
       <Implementation>
         <ST><![CDATA[TEST('CheckOffEventUnregistersAHandler');
 
-// @TEST-FIXTURE
 eventEmitter.OnEvent('test', mockHandler);
 eventEmitter.OffEvent('test', mockHandler);
 
-// @TEST-RUN
 eventEmitter.Emit('test',mockEvent);
 eventReceived := mockHandler.EqualsLastEvent(mockEvent);
 
-// @TEST-ASSSERT
 AssertFalse(
 	Condition := eventReceived,
 	Message := 'Event Emitter did not correctly unregister the event handler using the off method'
@@ -172,14 +157,11 @@ END_VAR
       <Implementation>
         <ST><![CDATA[TEST('CheckOnceEventCorrectlyCallsHandler');
 
-// @TEST-FIXTURE
 eventEmitter.OnceEvent('test', mockHandler);
 
-// @TEST-RUN
 eventEmitter.Emit('test',mockEvent);
 eventReceived := mockHandler.EqualsLastEvent(mockEvent);
 
-// @TEST-ASSSERT
 AssertTrue(
 	Condition := eventReceived,
 	Message := 'Event Emitter did not notify the handler'
@@ -201,15 +183,12 @@ END_VAR
       <Implementation>
         <ST><![CDATA[TEST('CheckOnceEventCorrectlyCallsHandlerOnlyOnce');
 
-// @TEST-FIXTURE
 eventEmitter.OnceEvent('test', mockHandler);
 
-// @TEST-RUN
 eventEmitter.Emit('test',mockEvent);
 eventEmitter.Emit('test',mockEvent);
 eventCount := mockHandler.EventsHandled;
 
-// @TEST-ASSSERT
 AssertEquals(
 	Expected := expected,
 	Actual := eventCount,

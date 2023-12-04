@@ -23,7 +23,16 @@
     <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Tests\EventTargetInterface_TestSuite.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Tests\EventEmitter_TestSuite.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tests\EventEmitterInterface_TestSuite.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tests\EventHandlerInterface_TestSuite.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tests\Mocks\MockEvent.TcPOU">
@@ -39,10 +48,6 @@
     <Folder Include="Tests\Mocks" />
   </ItemGroup>
   <ItemGroup>
-    <PlaceholderReference Include="mobject-events">
-      <DefaultResolution>mobject-events, * (mobject)</DefaultResolution>
-      <Namespace>mobject_events</Namespace>
-    </PlaceholderReference>
     <PlaceholderReference Include="Tc2_Standard">
       <DefaultResolution>Tc2_Standard, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_Standard</Namespace>
@@ -66,15 +71,15 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PlaceholderResolution Include="mobject-events">
-      <Resolution>mobject-events, 0.4.1 (mobject)</Resolution>
-    </PlaceholderResolution>
+    <LibraryReference Include="mobject-events,1.0.0,mobject">
+      <Namespace>mobject_events</Namespace>
+    </LibraryReference>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>
       <XmlArchive>
-  <Data>
-    <o xml:space="preserve" t="OptionKey">
+        <Data>
+          <o xml:space="preserve" t="OptionKey">
       <v n="Name">"&lt;ProjectRoot&gt;"</v>
       <d n="SubKeys" t="Hashtable" ckt="String" cvt="OptionKey">
         <v>{192FAD59-8248-4824-A8DE-9177C94C195A}</v>
@@ -117,13 +122,13 @@
       </d>
       <d n="Values" t="Hashtable" />
     </o>
-  </Data>
-  <TypeList>
-    <Type n="Hashtable">System.Collections.Hashtable</Type>
-    <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
-    <Type n="String">System.String</Type>
-  </TypeList>
-</XmlArchive>
+        </Data>
+        <TypeList>
+          <Type n="Hashtable">System.Collections.Hashtable</Type>
+          <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
+          <Type n="String">System.String</Type>
+        </TypeList>
+      </XmlArchive>
     </PlcProjectOptions>
   </ProjectExtensions>
 </Project>

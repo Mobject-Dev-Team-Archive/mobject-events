@@ -10,8 +10,7 @@ VAR
 	handler : I_EventHandler;
 	_next : I_EventHandlerItem;
 	_previous : I_EventHandlerItem;
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>

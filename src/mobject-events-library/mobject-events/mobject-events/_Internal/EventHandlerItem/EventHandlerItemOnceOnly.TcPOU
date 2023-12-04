@@ -7,8 +7,7 @@
 FUNCTION_BLOCK EventHandlerItemOnceOnly EXTENDS EventHandlerItem
 VAR
 	parent : I_EventEmitter;
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>

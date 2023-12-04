@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="EventEmitterInterface_TestSuite" Id="{3df638a4-d586-461e-9262-2f7e1ce8774a}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC EventEmitterInterface_TestSuite EXTENDS TcUnit.FB_TestSuite
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CheckEmitWorksWithHandler();
+CheckExtendsFromQueryInterface();
+CheckOffEventUnregistersAHandler();
+CheckOnceEventCorrectlyCallsHandler();]]></ST>
+    </Implementation>
+    <Method Name="CheckEmitWorksWithHandler" Id="{df10bf5c-051c-4412-8fb4-19a862b0a1a4}">
+      <Declaration><![CDATA[METHOD PUBLIC CheckEmitWorksWithHandler
+VAR
+	mockEvent : MockEvent;
+	mockHandler : MockEventHandler;
+	eventEmitter : EventEmitter;
+	iEventEmitter : I_EventEmitter := eventEmitter;
+	eventReceived : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('CheckEmitWorksWithHandler');
+
+iEventEmitter.OnEvent('test', mockHandler);
+
+eventEmitter.Emit('test',mockEvent);
+eventReceived := mockHandler.EqualsLastEvent(mockEvent);
+
+AssertTrue(
+	Condition := eventReceived,
+	Message := 'Event Emitter did not correctly emmit the event to the handler'
+);
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="CheckExtendsFromQueryInterface" Id="{add16a86-8ef4-47c8-853a-30227b7f24dd}">
+      <Declaration><![CDATA[METHOD PUBLIC CheckExtendsFromQueryInterface
+VAR
+	eventEmitter : EventEmitter;
+	iEventEmitter : I_EventEmitter := eventEmitter;
+	iQueryInterface : __SYSTEM.IQueryInterface;
+	result : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('CheckExtendsFromQueryInterface');
+
+result := __QUERYINTERFACE(iEventEmitter,iQueryInterface);
+
+AssertTrue(
+	Condition := result,
+	Message := 'Interface did not extend __SYSTEM.IQueryInterface'
+);
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="CheckOffEventUnregistersAHandler" Id="{2834fe6a-2dc3-4db6-913d-42f19e768116}">
+      <Declaration><![CDATA[METHOD PUBLIC CheckOffEventUnregistersAHandler
+VAR
+	mockEvent : MockEvent;
+	mockHandler : MockEventHandler;
+	eventEmitter : EventEmitter;
+	iEventEmitter : I_EventEmitter := eventEmitter;
+	eventReceived : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('CheckOffEventUnregistersAHandler');
+
+iEventEmitter.OnEvent('test', mockHandler);
+iEventEmitter.OffEvent('test', mockHandler);
+
+eventEmitter.Emit('test',mockEvent);
+eventReceived := mockHandler.EqualsLastEvent(mockEvent);
+
+AssertFalse(
+	Condition := eventReceived,
+	Message := 'Event Emitter did not correctly unregister the event handler using the off method'
+);
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="CheckOnceEventCorrectlyCallsHandler" Id="{f7603f1c-3336-4388-b3c1-9e5990773293}">
+      <Declaration><![CDATA[METHOD PUBLIC CheckOnceEventCorrectlyCallsHandler
+VAR
+	mockEvent : MockEvent;
+	mockHandler : MockEventHandler;
+	eventEmitter : EventEmitter;
+	iEventEmitter : I_EventEmitter := eventEmitter;
+	eventReceived : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('CheckOnceEventCorrectlyCallsHandler');
+
+iEventEmitter.OnceEvent('test', mockHandler);
+
+eventEmitter.Emit('test',mockEvent);
+eventReceived := mockHandler.EqualsLastEvent(mockEvent);
+
+AssertTrue(
+	Condition := eventReceived,
+	Message := 'Event Emitter did not notify the handler'
+);
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

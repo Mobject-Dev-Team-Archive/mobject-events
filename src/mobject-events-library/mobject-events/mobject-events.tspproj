@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.42">
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.53">
 	<Project ProjectGUID="{B7906F04-D3DC-44F4-B636-5DD4F429376F}" Target64Bit="true" ShowHideConfigurations="#x106">
 		<Plc>
 			<Project GUID="{39C9C9C3-DA27-4A75-B16C-925F1BC5C877}" Name="mobject-events" PrjFilePath="mobject-events\mobject-events.plcproj" TmcFilePath="mobject-events\mobject-events.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e"/>
