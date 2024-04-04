@@ -6,14 +6,14 @@
 
   - Classes
 
-    - [EventEmitter](event-emitter.md)
+    - [EventEmitter](EventEmitter.md)
 
   - Interfaces
 
-    - [I_Event](i-event.md)
-    - [I_EventEmitter](i-event-emitter.md)
-    - [I_EventHandler](i-event-handler.md)
-    - [I_EventTarget](i-event-target.md)
+    - [I_Event](I_Event.md)
+    - [I_EventEmitter](I_EventEmitter.md)
+    - [I_EventHandler](I_EventHandler.md)
+    - [I_EventTarget](I_EventTarget.md)
 
 - Guides
 

@@ -20,7 +20,7 @@ mobject's goal is to be a lightweight solution to typical oop problems.
 
 ## Documentation
 
-The documentation for this project can be found [here](https://mobject-dev-team.github.io/mobject-events/#/).
+The documentation for this project can be found [here](https://events.mobject.org/#/).
 
 ## Versions
 
