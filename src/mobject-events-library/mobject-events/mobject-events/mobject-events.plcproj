@@ -18,7 +18,7 @@
     <Company>mobject</Company>
     <Released>false</Released>
     <Title>mobject-events</Title>
-    <ProjectVersion>1.0.0</ProjectVersion>
+    <ProjectVersion>1.1.0</ProjectVersion>
     <DefaultNamespace>mobject-events</DefaultNamespace>
     <Author>mobject dev team</Author>
     <CombineIds>true</CombineIds>
@@ -78,7 +78,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <LibraryReference Include="mobject-disposable,1.0.0,mobject">
+    <LibraryReference Include="mobject-disposable,1.1.1,mobject">
       <Namespace>mobject_disposable</Namespace>
     </LibraryReference>
   </ItemGroup>
