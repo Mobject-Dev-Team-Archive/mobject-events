@@ -11,7 +11,7 @@ VAR_INPUT
 END_VAR]]></Declaration>
     </Method>
     <Method Name="EqualTo" Id="{891a4d19-2c72-038b-23f8-e2e209915aee}">
-      <Declaration><![CDATA[METHOD EqualTo : BOOL
+      <Declaration><![CDATA[METHOD PUBLIC EqualTo : BOOL
 VAR_INPUT
 	Name : T_MaxString;
 	Handler : I_EventHandler;

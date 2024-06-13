@@ -34,7 +34,7 @@ handler.HandleEvent(Event);]]></ST>
       </Implementation>
     </Method>
     <Method Name="EqualTo" Id="{0b7f4115-028c-0538-2e49-fc943848d717}">
-      <Declaration><![CDATA[METHOD EqualTo : BOOL
+      <Declaration><![CDATA[METHOD PUBLIC EqualTo : BOOL
 VAR_INPUT
 	Name : T_MaxString;
 	Handler : I_EventHandler;

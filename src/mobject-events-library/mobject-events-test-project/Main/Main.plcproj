@@ -71,7 +71,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <LibraryReference Include="mobject-events,1.0.0,mobject">
+    <LibraryReference Include="mobject-events,1.1.0,mobject">
       <Namespace>mobject_events</Namespace>
     </LibraryReference>
   </ItemGroup>
